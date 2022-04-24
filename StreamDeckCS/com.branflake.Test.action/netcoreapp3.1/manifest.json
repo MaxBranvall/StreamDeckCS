@@ -1,0 +1,39 @@
+﻿{
+  "Actions": [
+    {
+      "Icon": "",
+      "Name": "Test",
+      "States": [
+        {
+          "Image": "actionDefaultImage",
+          "TitleAlignment": "middle",
+          "FontSize": "16"
+        }
+      ],
+      "SupportedInMultiActions": false,
+      "Tooltip": "My Test",
+      "UUID": "com.branflake.test.action"
+    }
+  ],
+  "SDKVersion": 2,
+  "Author": "Branflake",
+  "CodePath": "code.html",
+  "Description": "My Test",
+  "Name": "MB_Test",
+  "Icon": "pluginIcon",
+  "URL": "https://www.elgato.com/gaming/stream-deck",
+  "Version": "1.2",
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.11"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "4.1"
+  }
+}
