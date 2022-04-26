@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "StreamDeckCS": {
-      "commandName": "Project",
-      "commandLineArgs": "-port 22751 -pluginUUID unique -registerEvent myEvent -info someInfo"
-    }
-  }
-}

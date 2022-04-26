@@ -7,8 +7,10 @@ using Newtonsoft.Json;
 
 namespace StreamDeckCS.Events
 {
-    internal class IEvent
+    internal class Event
     {        
+
+        [JsonProperty("event")]
         internal string eventName { get; set; }
 
         [JsonProperty("payload")]

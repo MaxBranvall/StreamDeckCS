@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Threading;
 using Newtonsoft.Json;
-//using WebSocketSharp.NetCore;
-//using System.Net.WebSockets;
-using WebSocket4Net;
 using System.Text;
+using WebSocketEnhanced;
 using StreamDeckCS.Events;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace StreamDeckCS
 {
-    class StreamdeckCore
+    public class StreamdeckCore
     {
 
         string port { get; set; }
@@ -19,15 +19,16 @@ namespace StreamDeckCS
 
         PluginDetails details = new PluginDetails();
         Registration registration = new Registration();
-        WebSocket ws;
+        WebSocketEnhancedCore webSocket;
 
-        public StreamdeckCore(string port, string pluginUUID, string registerEvent, string info)
+        public event EventHandler<KeyUpEvent> KeyUpEvent;
+
+        private const string KEY_UP = "keyUp";
+
+        public StreamdeckCore(string[] args)
         {
 
-            this.port = port;
-            this.pluginUUID = pluginUUID;
-            this.registerEvent = registerEvent;
-            this.info = info;
+            parseArgs(args);
 
             details.port = port;
             details.pluginUUID = pluginUUID;
@@ -37,39 +38,99 @@ namespace StreamDeckCS
             this.registration.UUID = pluginUUID;
             this.registration.pluginEvent = registerEvent;
 
-            this._connectWebSocket();
+            this.webSocket = new WebSocketEnhancedCore(this.port);
+            this.webSocket.MessageReceived += WebSocket_MessageReceived;
+            
         }
 
-        private async void _connectWebSocket()
+        public async Task Reg()
         {
-            ws = new WebSocket("ws://localhost:" + this.port);
-            ws.Opened += wsOpen;
-            ws.MessageReceived += msgRecieved;
-            ws.Open();
+            await this.webSocket.OpenSocket();
+            await this.webSocket.SendMessage(JsonConvert.SerializeObject(this.registration));
+            File.WriteAllText("register.txt", "registered");
         }
 
-        private void msgRecieved(object sender, MessageReceivedEventArgs e)
+        private void parseArgs(string[] args)
         {
-            try
+            for (int i = 0; i < args.Length; i += 2)
             {
-                if (JsonConvert.DeserializeObject<IEvent>(e.Message).eventName == "keyUp")
+
+                switch (args[i])
                 {
-                    ws.Send(JsonConvert.SerializeObject(new openUrl()));
+                    case "-port":
+                        this.port = args[i + 1];
+                        break;
+
+                    case "-pluginUUID":
+                        this.pluginUUID = args[i + 1];
+                        break;
+
+                    case "-registerEvent":
+                        this.registerEvent = args[i + 1];
+                        break;
+
+                    case "-info":
+                        this.info = args[i + 1];
+                        break;
+
+                    default:
+                        break;
                 }
-            } catch (Exception ex) { }
+
+            }
         }
 
-        private void wsOpen(object sender, EventArgs e)
+        public async Task listenToSocket()
         {
+            File.WriteAllText("listen.txt", "registered");
+            await this.webSocket.Listen();
+        }
 
-            ws.Send(JsonConvert.SerializeObject(this.registration));
-            LogMessage log = new LogMessage();
+        public void setTitle(string title, string context)
+        {
+            SetTitle t = new SetTitle();
+            t.context = context;
+            t.p.title = title;
 
-            log.p.message = "Testing from code!";
+            this.webSocket.SendMessage(JsonConvert.SerializeObject(t));
+        }
 
-            ws.Send(JsonConvert.SerializeObject(log));
+        public void setImage(string base64Image, string context)
+        {
+            SetImage setImage = new SetImage();
+            setImage.p.image = base64Image;
+            setImage.context = context;
 
-            ws.Send(JsonConvert.SerializeObject(new openUrl()));
+            this.webSocket.SendMessage(JsonConvert.SerializeObject(setImage));
+        }
+
+        private void WebSocket_MessageReceived(object sender, MessageEventArgs e)
+        {
+            var msg = JsonConvert.DeserializeObject<Event>(e.message);
+
+            switch (msg.eventName)
+            {
+                case KEY_UP:
+                    File.WriteAllText("gotkey.txt", "registered");
+                    OnRaiseKeyUpEvent(JsonConvert.DeserializeObject<KeyUpEvent>(e.message));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        protected virtual void OnRaiseKeyUpEvent(KeyUpEvent e)
+        {
+            EventHandler<KeyUpEvent> keyUpCopy = KeyUpEvent;
+
+            if (keyUpCopy != null)
+            {
+                LogMessage l = new LogMessage();
+                l.p.message = "key up branflake";
+                this.webSocket.SendMessage(JsonConvert.SerializeObject(l));
+                keyUpCopy?.Invoke(this, e);
+            }
+
         }
 
     }
