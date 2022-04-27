@@ -8,7 +8,7 @@ using StreamDeckCS.Events;
 
 namespace StreamDeckCS
 {
-    internal class openUrl : Event
+    internal class openUrl : BaseEvent
     {
         [JsonProperty("event")]
         string eventName = "openUrl";

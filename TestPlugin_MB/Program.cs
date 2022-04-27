@@ -4,6 +4,7 @@ using StreamDeckCS;
 using Newtonsoft.Json;
 using StreamDeckCS.Events;
 using System.IO;
+using StreamDeckCS.EventsReceived;
 
 namespace TestPlugin_MB
 {
@@ -15,32 +16,19 @@ namespace TestPlugin_MB
         static async Task Main(string[] args)
         {
             core = new StreamdeckCore(args);
-            await core.Reg();
-
-            string f = args[3];
-            string x = args[5];
-
-            File.WriteAllText("test.txt", f + " " + x);
 
             core.KeyUpEvent += Core_KeyUpEvent;
 
-            await core.listenToSocket();
+            await core.Start();            
             
         }
 
-        private static void Core_KeyUpEvent(object sender, KeyUpEvent e)
+        private static void Core_KeyUpEvent(object sender, KeyUp e)
         {
-            File.WriteAllText("keyup.txt", "key pressed");
-
             string p = "C:\\Users\\maxbr\\Documents\\Programming\\C#\\StreamDeckCS\\StreamDeckCS\\iracingProfile.png";
 
-            byte[] arr = File.ReadAllBytes(p);
-            string b64 = Convert.ToBase64String(arr);
-
-            File.WriteAllText("image.txt", b64);
-
-            //core.setTitle("Title from app", e.context);
-            core.setImage("data:image/png;base64," + b64, e.context);
+            core.setImage(p, e.context);
+            core.setTitle("Test title", e.context);
         }
     }
 }

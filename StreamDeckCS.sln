@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamDeckCS", "StreamDeckCS\StreamDeckCS.csproj", "{2CEEB272-0EAC-4D30-B3DF-B9E670BA3C42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPlugin_MB", "TestPlugin_MB\TestPlugin_MB.csproj", "{00BB4E12-11C5-43ED-A8A8-CF1C215DB055}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPlugin_MB", "TestPlugin_MB\TestPlugin_MB.csproj", "{00BB4E12-11C5-43ED-A8A8-CF1C215DB055}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamDeckCS_Tests", "StreamDeckCS_Tests\StreamDeckCS_Tests.csproj", "{A84E99D2-6D12-4D61-B150-3440FF6ABAF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{00BB4E12-11C5-43ED-A8A8-CF1C215DB055}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00BB4E12-11C5-43ED-A8A8-CF1C215DB055}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00BB4E12-11C5-43ED-A8A8-CF1C215DB055}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A84E99D2-6D12-4D61-B150-3440FF6ABAF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A84E99D2-6D12-4D61-B150-3440FF6ABAF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A84E99D2-6D12-4D61-B150-3440FF6ABAF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A84E99D2-6D12-4D61-B150-3440FF6ABAF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

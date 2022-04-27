@@ -6,6 +6,8 @@ using WebSocketEnhanced;
 using StreamDeckCS.Events;
 using System.Threading.Tasks;
 using System.IO;
+using StreamDeckCS.EventsSent;
+using StreamDeckCS.EventsReceived;
 
 namespace StreamDeckCS
 {
@@ -21,7 +23,7 @@ namespace StreamDeckCS
         Registration registration = new Registration();
         WebSocketEnhancedCore webSocket;
 
-        public event EventHandler<KeyUpEvent> KeyUpEvent;
+        public event EventHandler<KeyUp> KeyUpEvent;
 
         private const string KEY_UP = "keyUp";
 
@@ -43,11 +45,17 @@ namespace StreamDeckCS
             
         }
 
-        public async Task Reg()
+        /// <summary>
+        /// Opens communication with the Stream Deck application, registers your plugin, and begins listening for messages.
+        /// </summary>
+        /// <returns></returns>
+        public async Task Start()
         {
             await this.webSocket.OpenSocket();
             await this.webSocket.SendMessage(JsonConvert.SerializeObject(this.registration));
-            File.WriteAllText("register.txt", "registered");
+            this.LogMessage("Plugin registered!");
+            this.LogMessage("I'm listening...");
+            await this.webSocket.Listen();
         }
 
         private void parseArgs(string[] args)
@@ -80,54 +88,53 @@ namespace StreamDeckCS
             }
         }
 
-        public async Task listenToSocket()
+        public void LogMessage(string msg)
         {
-            File.WriteAllText("listen.txt", "registered");
-            await this.webSocket.Listen();
+            this._sendMessage(new LogMessage(msg));
         }
 
         public void setTitle(string title, string context)
         {
-            SetTitle t = new SetTitle();
-            t.context = context;
-            t.p.title = title;
-
-            this.webSocket.SendMessage(JsonConvert.SerializeObject(t));
+            this._sendMessage(new SetTitle(title, context));
         }
 
-        public void setImage(string base64Image, string context)
+        public void setImage(string imagePath, string context)
         {
-            SetImage setImage = new SetImage();
-            setImage.p.image = base64Image;
-            setImage.context = context;
+            // reads image into a byte array and converts it to a base64 encoded string. Metadata is manually appended
+            string b64Encoded = $"data:image/png;base64,{Convert.ToBase64String(File.ReadAllBytes(imagePath))}";
 
-            this.webSocket.SendMessage(JsonConvert.SerializeObject(setImage));
+            var setImage = new SetImage(b64Encoded, context);
+
+            this._sendMessage(setImage);
+        }
+
+        private void _sendMessage(object msg)
+        {
+            this.webSocket.SendMessage(JsonConvert.SerializeObject(msg));
         }
 
         private void WebSocket_MessageReceived(object sender, MessageEventArgs e)
         {
-            var msg = JsonConvert.DeserializeObject<Event>(e.message);
+            var msg = JsonConvert.DeserializeObject<BaseEvent>(e.message);
 
             switch (msg.eventName)
             {
                 case KEY_UP:
                     File.WriteAllText("gotkey.txt", "registered");
-                    OnRaiseKeyUpEvent(JsonConvert.DeserializeObject<KeyUpEvent>(e.message));
+                    OnRaiseKeyUpEvent(JsonConvert.DeserializeObject<KeyUp>(e.message));
                     break;
                 default:
                     break;
             }
         }
 
-        protected virtual void OnRaiseKeyUpEvent(KeyUpEvent e)
+        protected virtual void OnRaiseKeyUpEvent(KeyUp e)
         {
-            EventHandler<KeyUpEvent> keyUpCopy = KeyUpEvent;
+            EventHandler<KeyUp> keyUpCopy = KeyUpEvent;
 
             if (keyUpCopy != null)
             {
-                LogMessage l = new LogMessage();
-                l.p.message = "key up branflake";
-                this.webSocket.SendMessage(JsonConvert.SerializeObject(l));
+                this.LogMessage("Got key up event");
                 keyUpCopy?.Invoke(this, e);
             }
 

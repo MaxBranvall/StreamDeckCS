@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace StreamDeckCS
+namespace StreamDeckCS.EventsSent
 {
     class LogMessage
     {
@@ -13,10 +13,15 @@ namespace StreamDeckCS
         [JsonProperty("payload")]
         internal Payload p = new Payload();
 
-        internal class Payload : IPayload
+        internal class Payload
         {
             [JsonProperty("message")]
             public string message { get; set; }
+        }
+
+        public LogMessage(string msg)
+        {
+            this.p.message = msg;
         }
 
     }

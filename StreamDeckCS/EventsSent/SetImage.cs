@@ -7,23 +7,29 @@ using Newtonsoft.Json;
 
 namespace StreamDeckCS.Events
 {
-    internal class SetTitle
+    internal class SetImage
     {
         [JsonProperty("event")]
-        public string eventName = "setTitle";
+        public string eventName = "setImage";
 
         [JsonProperty("context")]
         public string context { get; set; }
 
         [JsonProperty("payload")]
-        public PayloadTitle p = new PayloadTitle();
+        public PayloadTitle2 p = new PayloadTitle2();
+
+        public SetImage(string b64Encoded, string context)
+        {
+            p.image = b64Encoded;
+            this.context = context;
+        }
 
     }
 
-    public class PayloadTitle
+    public class PayloadTitle2
     {
-        [JsonProperty("title")]
-        public string title { get; set; }
+        [JsonProperty("image")]
+        public string image { get; set; }
 
         [JsonProperty("target")]
         public int target { get; set; }

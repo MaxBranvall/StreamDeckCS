@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamDeckCS
 {
-    internal class IPayload
+    public interface IPayload
     {
     }
 }
