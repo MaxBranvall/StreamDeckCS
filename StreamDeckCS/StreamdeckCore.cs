@@ -24,8 +24,8 @@ namespace StreamDeckCS
         WebSocketEnhancedCore webSocket;
 
         public event EventHandler<KeyUp> KeyUpEvent;
-
-        private const string KEY_UP = "keyUp";
+        public event EventHandler<KeyDown> KeyDownEvent;
+        public event EventHandler<PropertyInspectorDidAppear> PropertyInspectorAppearedEvent;
 
         public StreamdeckCore(string[] args)
         {
@@ -108,6 +108,13 @@ namespace StreamDeckCS
             this._sendMessage(setImage);
         }
 
+        public void sendToPI(IPayload payload, string context)
+        {
+            var msg = new SendToPropertyInspector(payload, pluginUUID, context);
+
+            this._sendMessage(msg);
+        }
+
         private void _sendMessage(object msg)
         {
             this.webSocket.SendMessage(JsonConvert.SerializeObject(msg));
@@ -119,12 +126,28 @@ namespace StreamDeckCS
 
             switch (msg.eventName)
             {
-                case KEY_UP:
-                    File.WriteAllText("gotkey.txt", "registered");
+                case Constants.KEY_UP:
                     OnRaiseKeyUpEvent(JsonConvert.DeserializeObject<KeyUp>(e.message));
+                    break;
+                case Constants.KEY_DOWN:
+                    OnRaiseKeyDownEvent(JsonConvert.DeserializeObject<KeyDown>(e.message));
+                    break;
+                case Constants.PI_APPEARED:
+                    OnPropertyInspectorAppearedEvent(JsonConvert.DeserializeObject<PropertyInspectorDidAppear>(e.message));
                     break;
                 default:
                     break;
+            }
+        }
+
+        protected virtual void OnPropertyInspectorAppearedEvent(PropertyInspectorDidAppear e)
+        {
+            EventHandler<PropertyInspectorDidAppear> handler = PropertyInspectorAppearedEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("PI Appeared");
+                handler?.Invoke(this, e);
             }
         }
 
@@ -138,6 +161,17 @@ namespace StreamDeckCS
                 keyUpCopy?.Invoke(this, e);
             }
 
+        }
+
+        protected virtual void OnRaiseKeyDownEvent(KeyDown e)
+        {
+            EventHandler<KeyDown> keyDownCopy = KeyDownEvent;
+
+            if (keyDownCopy != null)
+            {
+                this.LogMessage("Got key down event");
+                keyDownCopy?.Invoke(this, e);
+            }
         }
 
     }

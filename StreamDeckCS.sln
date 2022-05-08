@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamDeckCS", "StreamDeckC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPlugin_MB", "TestPlugin_MB\TestPlugin_MB.csproj", "{00BB4E12-11C5-43ED-A8A8-CF1C215DB055}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamDeckCS_Tests", "StreamDeckCS_Tests\StreamDeckCS_Tests.csproj", "{A84E99D2-6D12-4D61-B150-3440FF6ABAF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamDeckCS_Tests", "StreamDeckCS_Tests\StreamDeckCS_Tests.csproj", "{A84E99D2-6D12-4D61-B150-3440FF6ABAF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

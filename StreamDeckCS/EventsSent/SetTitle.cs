@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace StreamDeckCS.Events
+namespace StreamDeckCS.EventsSent
 {
     internal class SetTitle
     {

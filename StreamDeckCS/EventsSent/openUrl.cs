@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StreamDeckCS.Events;
 
-namespace StreamDeckCS
+namespace StreamDeckCS.EventsSent
 {
     internal class openUrl : BaseEvent
     {
