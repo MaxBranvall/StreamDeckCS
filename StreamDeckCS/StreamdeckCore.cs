@@ -3,11 +3,11 @@ using System.Threading;
 using Newtonsoft.Json;
 using System.Text;
 using WebSocketEnhanced;
-using StreamDeckCS.Events;
 using System.Threading.Tasks;
 using System.IO;
 using StreamDeckCS.EventsSent;
 using StreamDeckCS.EventsReceived;
+using Newtonsoft.Json.Linq;
 
 namespace StreamDeckCS
 {
@@ -26,6 +26,9 @@ namespace StreamDeckCS
         public event EventHandler<KeyUp> KeyUpEvent;
         public event EventHandler<KeyDown> KeyDownEvent;
         public event EventHandler<PropertyInspectorDidAppear> PropertyInspectorAppearedEvent;
+        public event EventHandler<WillAppear> WillAppearEvent;
+        public event EventHandler<SendToPlugin> SendToPluginEvent;
+        public event EventHandler<DidReceiveSettings> DidReceiveSettingsEvent;
 
         public StreamdeckCore(string[] args)
         {
@@ -135,9 +138,54 @@ namespace StreamDeckCS
                 case Constants.PI_APPEARED:
                     OnPropertyInspectorAppearedEvent(JsonConvert.DeserializeObject<PropertyInspectorDidAppear>(e.message));
                     break;
+                case Constants.WILL_APPEAR:
+                    OnWillAppearEvent(JsonConvert.DeserializeObject<WillAppear>(e.message));
+                    break;
+                case Constants.SEND_TO_PLUGIN:
+                    OnSendToPluginEvent(JsonConvert.DeserializeObject<SendToPlugin>(e.message));
+                    break;
+                case Constants.DID_RECEIVE_SETTINGS:
+                    OnDidReceiveSettings(JsonConvert.DeserializeObject<DidReceiveSettings>(e.message));
+                    break;
+
                 default:
                     break;
             }
+        }
+
+        private void OnDidReceiveSettings(DidReceiveSettings e)
+        {
+            EventHandler<DidReceiveSettings> handler = DidReceiveSettingsEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("didReceiveSettings fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
+        protected virtual void OnSendToPluginEvent(SendToPlugin e)
+        {
+            EventHandler<SendToPlugin> handler = SendToPluginEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("SendToPlugin Fired");
+                handler?.Invoke(this, e);
+            }
+
+        }
+
+        protected virtual void OnWillAppearEvent(WillAppear e)
+        {
+            EventHandler<WillAppear> handler = WillAppearEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("WillAppear Fired");
+                handler?.Invoke(this, e);
+            }
+
         }
 
         protected virtual void OnPropertyInspectorAppearedEvent(PropertyInspectorDidAppear e)

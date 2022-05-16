@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using StreamDeckCS.Events;
+using Newtonsoft.Json.Linq;
 
 namespace StreamDeckCS.EventsReceived
 {
@@ -36,6 +36,6 @@ namespace StreamDeckCS.EventsReceived
 
     public class Settings
     {
-
+        public dynamic general { get; set; }
     }
 }
