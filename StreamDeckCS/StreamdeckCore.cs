@@ -118,6 +118,11 @@ namespace StreamDeckCS
             this._sendMessage(msg);
         }
 
+        public void getSettings(string context)
+        {
+            this._sendMessage(new GetSettings(context));
+        }
+
         private void _sendMessage(object msg)
         {
             this.webSocket.SendMessage(JsonConvert.SerializeObject(msg));

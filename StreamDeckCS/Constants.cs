@@ -10,7 +10,7 @@ namespace StreamDeckCS
     {
 
         public const string KEY_UP = "keyUp";
-        public const string KEY_DOWN = "keydown";
+        public const string KEY_DOWN = "keyDown";
 
         public const string PI_APPEARED = "propertyInspectorDidAppear";
         public const string WILL_APPEAR = "willAppear";
