@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace StreamDeckCS.EventsReceived
 {
-    public class SendToPlugin : BaseEvent
+    public class WillDisappear : BaseEvent
     {
-        public JObject payload { get; set; }
+        public BasePayload payload { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace StreamDeckCS.EventsSent
 {
@@ -19,9 +20,9 @@ namespace StreamDeckCS.EventsSent
         string context { get; set; }
 
         [JsonProperty("payload")]
-        public IPayload payload { get; set; }
+        public JObject payload { get; set; }
 
-        public SendToPropertyInspector(IPayload payload, string action, string context)
+        public SendToPropertyInspector(JObject payload, string action, string context)
         {
             this.action = action;
             this.context = context;

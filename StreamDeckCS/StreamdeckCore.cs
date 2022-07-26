@@ -27,6 +27,7 @@ namespace StreamDeckCS
         public event EventHandler<KeyDown> KeyDownEvent;
         public event EventHandler<PropertyInspectorDidAppear> PropertyInspectorAppearedEvent;
         public event EventHandler<WillAppear> WillAppearEvent;
+        public event EventHandler<WillDisappear> WillDisappearEvent;
         public event EventHandler<SendToPlugin> SendToPluginEvent;
         public event EventHandler<DidReceiveSettings> DidReceiveSettingsEvent;
 
@@ -111,7 +112,7 @@ namespace StreamDeckCS
             this._sendMessage(setImage);
         }
 
-        public void sendToPI(IPayload payload, string context)
+        public void sendToPI(JObject payload, string context)
         {
             var msg = new SendToPropertyInspector(payload, pluginUUID, context);
 
@@ -130,32 +131,44 @@ namespace StreamDeckCS
 
         private void WebSocket_MessageReceived(object sender, MessageEventArgs e)
         {
-            var msg = JsonConvert.DeserializeObject<BaseEvent>(e.message);
 
-            switch (msg.eventName)
+            try
             {
-                case Constants.KEY_UP:
-                    OnRaiseKeyUpEvent(JsonConvert.DeserializeObject<KeyUp>(e.message));
-                    break;
-                case Constants.KEY_DOWN:
-                    OnRaiseKeyDownEvent(JsonConvert.DeserializeObject<KeyDown>(e.message));
-                    break;
-                case Constants.PI_APPEARED:
-                    OnPropertyInspectorAppearedEvent(JsonConvert.DeserializeObject<PropertyInspectorDidAppear>(e.message));
-                    break;
-                case Constants.WILL_APPEAR:
-                    OnWillAppearEvent(JsonConvert.DeserializeObject<WillAppear>(e.message));
-                    break;
-                case Constants.SEND_TO_PLUGIN:
-                    OnSendToPluginEvent(JsonConvert.DeserializeObject<SendToPlugin>(e.message));
-                    break;
-                case Constants.DID_RECEIVE_SETTINGS:
-                    OnDidReceiveSettings(JsonConvert.DeserializeObject<DidReceiveSettings>(e.message));
-                    break;
+                var msg = JsonConvert.DeserializeObject<BaseEvent>(e.message);
 
-                default:
-                    break;
+                switch (msg.eventName)
+                {
+                    case Constants.KEY_UP:
+                        OnRaiseKeyUpEvent(JsonConvert.DeserializeObject<KeyUp>(e.message));
+                        break;
+                    case Constants.KEY_DOWN:
+                        OnRaiseKeyDownEvent(JsonConvert.DeserializeObject<KeyDown>(e.message));
+                        break;
+                    case Constants.PI_APPEARED:
+                        OnPropertyInspectorAppearedEvent(JsonConvert.DeserializeObject<PropertyInspectorDidAppear>(e.message));
+                        break;
+                    case Constants.WILL_APPEAR:
+                        OnWillAppearEvent(JsonConvert.DeserializeObject<WillAppear>(e.message));
+                        break;
+                    case Constants.WILL_DISAPPEAR:
+                        OnWillDisappearEvent(JsonConvert.DeserializeObject<WillDisappear>(e.message));
+                        break;
+                    case Constants.SEND_TO_PLUGIN:
+                        OnSendToPluginEvent(JsonConvert.DeserializeObject<SendToPlugin>(e.message));
+                        break;
+                    case Constants.DID_RECEIVE_SETTINGS:
+                        OnDidReceiveSettings(JsonConvert.DeserializeObject<DidReceiveSettings>(e.message));
+                        break;
+
+                    default:
+                        break;
+                }
+            } catch(Exception ex)
+            {
+                this.LogMessage("Caught error: " + ex.ToString());
             }
+
+
         }
 
         private void OnDidReceiveSettings(DidReceiveSettings e)
@@ -188,6 +201,18 @@ namespace StreamDeckCS
             if (handler != null)
             {
                 this.LogMessage("WillAppear Fired");
+                handler?.Invoke(this, e);
+            }
+
+        }
+
+        protected virtual void OnWillDisappearEvent(WillDisappear e)
+        {
+            EventHandler<WillDisappear> handler = WillDisappearEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("WillDisappear Fired");
                 handler?.Invoke(this, e);
             }
 
