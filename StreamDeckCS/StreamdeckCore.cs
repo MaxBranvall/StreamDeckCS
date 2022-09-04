@@ -124,7 +124,7 @@ namespace StreamDeckCS
             this._sendMessage(new GetSettings(context));
         }
 
-        public void setSettings(JObject context, string payload)
+        public void setSettings(string context, JObject payload)
         {
             this._sendMessage(new SetSettings(context, payload));
         }

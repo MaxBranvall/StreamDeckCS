@@ -20,7 +20,7 @@ namespace StreamDeckCS.EventsSent
         [JsonProperty("payload")]
         public JObject payload { get; set; }
 
-        public SetSettings(JObject context, string payload)
+        public SetSettings(string context, JObject payload)
         {
             this.context = context;
             this.payload = payload;
