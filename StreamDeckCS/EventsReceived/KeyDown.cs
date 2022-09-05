@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using StreamDeckCS.Helpers;
 
 namespace StreamDeckCS.EventsReceived
 {
@@ -11,25 +12,7 @@ namespace StreamDeckCS.EventsReceived
     {
 
         [JsonProperty("payload")]
-        public Payload p = new Payload();
-
-        public class Payload
-        {
-            [JsonProperty("settings")]
-            public Settings settings = new Settings();
-
-            [JsonProperty("coordinates")]
-            public Coordinates coordinates = new Coordinates();
-
-            [JsonProperty("state")]
-            public int state { get; set; }
-
-            [JsonProperty("userDesiredState")]
-            public int userState { get; set; }
-
-            [JsonProperty("isInMultiAction")]
-            public bool multiAction { get; set; }
-        }
+        public KeyPayload payload = new KeyPayload();
 
     }
 }

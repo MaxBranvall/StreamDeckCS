@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Threading;
-using Newtonsoft.Json;
-using System.Text;
-using WebSocketEnhanced;
-using System.Threading.Tasks;
 using System.IO;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using WebSocketEnhanced;
+using StreamDeckCS.Helpers;
 using StreamDeckCS.EventsSent;
 using StreamDeckCS.EventsReceived;
-using Newtonsoft.Json.Linq;
 
 namespace StreamDeckCS
 {
@@ -30,6 +29,14 @@ namespace StreamDeckCS
         public event EventHandler<WillDisappear> WillDisappearEvent;
         public event EventHandler<SendToPlugin> SendToPluginEvent;
         public event EventHandler<DidReceiveSettings> DidReceiveSettingsEvent;
+        public event EventHandler<DidReceiveGlobalSettings> DidReceiveGlobalSettingsEvent;
+        public event EventHandler<TitleParametersDidChange> TitleParametersDidChangeEvent;
+        public event EventHandler<DeviceDidConnect> DeviceDidConnectEvent;
+        public event EventHandler<DeviceDidDisconnect> DeviceDidDisconnectEvent;
+        public event EventHandler<ApplicationDidLaunch> ApplicationDidLaunchEvent;
+        public event EventHandler<ApplicationDidTerminate> ApplicationDidTerminateEvent;
+        public event EventHandler<SystemDidWakeUp> SystemDidWakeUpEvent;
+        public event EventHandler<PropertyInspectorDidDisappear> PropertyInspectorDidDisappearEvent;
 
         public StreamdeckCore(string[] args)
         {
@@ -152,6 +159,9 @@ namespace StreamDeckCS
                     case Constants.PI_APPEARED:
                         OnPropertyInspectorAppearedEvent(JsonConvert.DeserializeObject<PropertyInspectorDidAppear>(e.message));
                         break;
+                    case Constants.PI_DISAPPEARED:
+                        OnPropertyInspectorDisappearedEvent(JsonConvert.DeserializeObject<PropertyInspectorDidDisappear>(e.message));
+                        break;
                     case Constants.WILL_APPEAR:
                         OnWillAppearEvent(JsonConvert.DeserializeObject<WillAppear>(e.message));
                         break;
@@ -163,6 +173,27 @@ namespace StreamDeckCS
                         break;
                     case Constants.DID_RECEIVE_SETTINGS:
                         OnDidReceiveSettings(JsonConvert.DeserializeObject<DidReceiveSettings>(e.message));
+                        break;
+                    case Constants.DID_RECEIVE_GLOBAL_SETTINGS:
+                        OnDidReceiveGlobalSettings(JsonConvert.DeserializeObject<DidReceiveGlobalSettings>(e.message));
+                        break;
+                    case Constants.TITLE_PARAMETERS_DID_CHANGE:
+                        OnTitleParametersDidChange(JsonConvert.DeserializeObject<TitleParametersDidChange>(e.message));
+                        break;
+                    case Constants.DEVICE_DID_CONNECT:
+                        OnDeviceDidConnect(JsonConvert.DeserializeObject<DeviceDidConnect>(e.message));
+                        break;
+                    case Constants.DEVICE_DID_DISCONNECT:
+                        OnDeviceDidDisconnect(JsonConvert.DeserializeObject<DeviceDidDisconnect>(e.message));
+                        break;
+                    case Constants.APPLICATION_DID_LAUNCH:
+                        OnApplicationDidLaunch(JsonConvert.DeserializeObject<ApplicationDidLaunch>(e.message));
+                        break;
+                    case Constants.APPLICATION_DID_TERMINATE:
+                        OnApplicationDidTerminate(JsonConvert.DeserializeObject<ApplicationDidTerminate>(e.message));
+                        break;
+                    case Constants.SYSTEM_DID_WAKE_UP:
+                        OnSystemDidWakeUp(JsonConvert.DeserializeObject<SystemDidWakeUp>(e.message));
                         break;
 
                     default:
@@ -176,6 +207,83 @@ namespace StreamDeckCS
 
         }
 
+        private void OnSystemDidWakeUp(SystemDidWakeUp e)
+        {
+            EventHandler<SystemDidWakeUp> handler = SystemDidWakeUpEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("systemDidWakeUp fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
+        private void OnApplicationDidTerminate(ApplicationDidTerminate e)
+        {
+            EventHandler<ApplicationDidTerminate> handler = ApplicationDidTerminateEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("applicationDidTerminate fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
+        private void OnApplicationDidLaunch(ApplicationDidLaunch e)
+        {
+            EventHandler<ApplicationDidLaunch> handler = ApplicationDidLaunchEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("applicationDidLaunch fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
+        private void OnDeviceDidDisconnect(DeviceDidDisconnect e)
+        {
+            EventHandler<DeviceDidDisconnect> handler = DeviceDidDisconnectEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("deviceDidDisconnect fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
+        private void OnDeviceDidConnect(DeviceDidConnect e)
+        {
+            EventHandler<DeviceDidConnect> handler = DeviceDidConnectEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("deviceDidConnect fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
+        private void OnTitleParametersDidChange(TitleParametersDidChange e)
+        {
+            EventHandler<TitleParametersDidChange> handler = TitleParametersDidChangeEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("titleParametersDidChange fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
+        private void OnPropertyInspectorDisappearedEvent(PropertyInspectorDidDisappear e)
+        {
+            EventHandler<PropertyInspectorDidDisappear> handler = PropertyInspectorDidDisappearEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("propertyInspectorDisappeared fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
         private void OnDidReceiveSettings(DidReceiveSettings e)
         {
             EventHandler<DidReceiveSettings> handler = DidReceiveSettingsEvent;
@@ -183,6 +291,17 @@ namespace StreamDeckCS
             if (handler != null)
             {
                 this.LogMessage("didReceiveSettings fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
+        private void OnDidReceiveGlobalSettings(DidReceiveGlobalSettings e)
+        {
+            EventHandler<DidReceiveGlobalSettings> handler = DidReceiveGlobalSettingsEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("didReceiveGlobalSettings fired");
                 handler?.Invoke(this, e);
             }
         }

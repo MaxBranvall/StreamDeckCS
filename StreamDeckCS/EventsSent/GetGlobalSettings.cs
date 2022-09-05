@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamDeckCS
+namespace StreamDeckCS.EventsSent
 {
-    public interface IPayload
+    internal class GetGlobalSettings
     {
     }
 }

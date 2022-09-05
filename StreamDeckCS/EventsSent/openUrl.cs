@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StreamDeckCS.EventsReceived;
+using StreamDeckCS.Helpers;
 
 namespace StreamDeckCS.EventsSent
 {
@@ -17,7 +18,7 @@ namespace StreamDeckCS.EventsSent
 
     }
 
-    class Payload : IPayload
+    class Payload
     {
         [JsonProperty("url")]
         string url = "https://www.google.com/";

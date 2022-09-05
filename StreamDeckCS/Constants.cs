@@ -13,6 +13,7 @@ namespace StreamDeckCS
         public const string KEY_DOWN = "keyDown";
 
         public const string PI_APPEARED = "propertyInspectorDidAppear";
+        public const string PI_DISAPPEARED = "propertyInspectorDidDisappear";
         public const string WILL_APPEAR = "willAppear";
         public const string WILL_DISAPPEAR = "willDisappear";
 
@@ -21,5 +22,14 @@ namespace StreamDeckCS
         public const string DID_RECEIVE_SETTINGS = "didReceiveSettings";
         public const string DID_RECEIVE_GLOBAL_SETTINGS = "didReceiveGlobalSettings";
 
+        public const string TITLE_PARAMETERS_DID_CHANGE = "titleParametersDidChange";
+
+        public const string DEVICE_DID_CONNECT = "deviceDidConnect";
+        public const string DEVICE_DID_DISCONNECT = "deviceDidDisconnect";
+
+        public const string APPLICATION_DID_LAUNCH = "applicationDidLaunch";
+        public const string APPLICATION_DID_TERMINATE = "applicationDidTerminate";
+
+        public const string SYSTEM_DID_WAKE_UP = "systemDidWakeUp";
     }
 }

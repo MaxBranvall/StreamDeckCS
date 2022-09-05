@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace StreamDeckCS.EventsReceived
+namespace StreamDeckCS.Helpers
 {
     public class BaseEvent
     {        
-
         [JsonProperty("action")]
         public string action { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace StreamDeckCS.EventsReceived
 {
-    public class PropertyInspectorDidAppear : BaseEvent
+    public class PropertyInspectorDidDisappear : BaseEvent
     {
     }
 }

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using StreamDeckCS.EventsReceived;
 
-namespace StreamDeckCS.EventsReceived
+namespace StreamDeckCS.Helpers
 {
     public class BasePayload
     {
@@ -18,10 +19,5 @@ namespace StreamDeckCS.EventsReceived
         [JsonProperty("state")]
         public int state { get; set; }
 
-        [JsonProperty("userDesiredState")]
-        public int userState { get; set; }
-
-        [JsonProperty("isInMultiAction")]
-        public bool multiAction { get; set; }
     }
 }
