@@ -7,7 +7,7 @@ namespace StreamDeckCS.Helpers
     {
 
         [JsonProperty("settings")]
-        public Settings settings = new Settings();
+        public JObject settings { get; set; }
 
     }
 }

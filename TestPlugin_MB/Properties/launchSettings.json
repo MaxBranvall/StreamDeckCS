@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "TestPlugin_MB": {
-      "commandName": "Project",
-      "commandLineArgs": "-port 22751 -pluginUUID 88 -registerEvent regEv -info theInfo"
-    }
-  }
-}

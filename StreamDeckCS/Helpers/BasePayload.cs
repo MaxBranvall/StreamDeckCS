@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using StreamDeckCS.EventsReceived;
+using Newtonsoft.Json.Linq;
 
 namespace StreamDeckCS.Helpers
 {
     public class BasePayload
     {
         [JsonProperty("settings")]
-        public Settings settings = new Settings();
+        public JObject settings { get; set; }
 
         [JsonProperty("coordinates")]
         public Coordinates coordinates = new Coordinates();
