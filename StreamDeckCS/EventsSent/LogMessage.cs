@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace StreamDeckCS.EventsSent
 {
-    class LogMessage
+    public class LogMessage
     {
         [JsonProperty("event")]
-        string ev = "logMessage";
+        string eventName = "logMessage";
 
         [JsonProperty("payload")]
-        internal Payload p = new Payload();
+        internal LogMessagePayload payload = new LogMessagePayload();
 
-        internal class Payload
+        public LogMessage(string message)
         {
-            [JsonProperty("message")]
-            public string message { get; set; }
+            this.payload.message = message;
         }
 
-        public LogMessage(string msg)
-        {
-            this.p.message = msg;
-        }
+    }
 
+    class LogMessagePayload
+    {
+        [JsonProperty("message")]
+        internal string message { get; set; }
     }
 }

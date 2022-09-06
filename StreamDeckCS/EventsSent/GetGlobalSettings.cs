@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace StreamDeckCS.EventsSent
 {
-    internal class GetGlobalSettings
+    public class GetGlobalSettings
     {
+        [JsonProperty("event")]
+        private string eventName = "setGlobalSettings";
+
+        [JsonProperty("context")]
+        private string context { get; set; }
+
+        public GetGlobalSettings(string context)
+        {
+            this.context = context;
+        }
     }
 }

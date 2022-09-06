@@ -18,7 +18,6 @@ namespace StreamDeckCS
         string registerEvent { get; set; }
         string info { get; set; }
 
-        PluginDetails details = new PluginDetails();
         Registration registration = new Registration();
         WebSocketEnhancedCore webSocket;
 
@@ -42,11 +41,6 @@ namespace StreamDeckCS
         {
 
             parseArgs(args);
-
-            details.port = port;
-            details.pluginUUID = pluginUUID;
-            details.registerEvent = registerEvent;
-            details.info = info;
 
             this.registration.UUID = pluginUUID;
             this.registration.pluginEvent = registerEvent;
@@ -99,31 +93,9 @@ namespace StreamDeckCS
             }
         }
 
-        public void LogMessage(string msg)
+        public void setSettings(string context, JObject payload)
         {
-            this._sendMessage(new LogMessage(msg));
-        }
-
-        public void setTitle(string title, string context)
-        {
-            this._sendMessage(new SetTitle(title, context));
-        }
-
-        public void setImage(string imagePath, string context)
-        {
-            // reads image into a byte array and converts it to a base64 encoded string. Metadata is manually appended
-            string b64Encoded = $"data:image/png;base64,{Convert.ToBase64String(File.ReadAllBytes(imagePath))}";
-
-            var setImage = new SetImage(b64Encoded, context);
-
-            this._sendMessage(setImage);
-        }
-
-        public void sendToPI(JObject payload, string context)
-        {
-            var msg = new SendToPropertyInspector(payload, pluginUUID, context);
-
-            this._sendMessage(msg);
+            this._sendMessage(new SetSettings(context, payload));
         }
 
         public void getSettings(string context)
@@ -131,9 +103,59 @@ namespace StreamDeckCS
             this._sendMessage(new GetSettings(context));
         }
 
-        public void setSettings(string context, JObject payload)
+        public void setGlobalSettings(string context, JObject payload)
         {
-            this._sendMessage(new SetSettings(context, payload));
+            this._sendMessage(new SetGlobalSettings(context, payload));
+        }
+
+        public void getGlobalSettings(string context)
+        {
+            this._sendMessage(new GetGlobalSettings(context));
+        }
+
+        public void openUrl(string url)
+        {
+            this._sendMessage(new OpenUrl(url));            
+        }
+
+        public void LogMessage(string msg)
+        {
+            this._sendMessage(new LogMessage(msg));
+        }
+
+        public void setTitle(string context, string title, TARGET target = TARGET.HARDWARE_AND_SOFTWARE, int state = 0)
+        {
+            this._sendMessage(new SetTitle(context, title, target, state));
+        }
+
+        public void setImage(string context, string imagePath, TARGET target = TARGET.HARDWARE_AND_SOFTWARE, int state = 0, bool svg = false)
+        {
+            this._sendMessage(new SetImage(context, imagePath, target, state, svg));
+        }
+
+        public void showAlert(string context)
+        {
+            this._sendMessage(new ShowAlert(context));
+        }
+
+        public void showOk(string context)
+        {
+            this._sendMessage(new ShowOk(context));
+        }
+
+        public void setState(string context, int state)
+        {
+            this._sendMessage(new SetState(context, state));
+        }
+
+        public void switchToProfile(string context, string device, string profileName)
+        {
+            this._sendMessage(new SwitchToProfile(context, device, profileName));
+        }
+
+        public void sendToPI(string context, string action, JObject payload)
+        {
+            this._sendMessage(new SendToPropertyInspector(context, action, payload));
         }
 
         private void _sendMessage(object msg)

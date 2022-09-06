@@ -12,7 +12,7 @@ namespace StreamDeckCS.EventsSent
     {
 
         [JsonProperty("event")]
-        private string ev = "setSettings";
+        private string eventName = "setSettings";
 
         [JsonProperty("context")]
         public string context { get; private set; }

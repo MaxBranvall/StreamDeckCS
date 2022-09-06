@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using StreamDeckCS.EventsReceived;
-using StreamDeckCS.Helpers;
+﻿using Newtonsoft.Json;
 
 namespace StreamDeckCS.EventsSent
 {
-    internal class openUrl : BaseEvent
+    public class OpenUrl
     {
         [JsonProperty("event")]
-        string eventName = "openUrl";
+        private readonly string eventName = "openUrl";
 
-        public Payload payload = new Payload();
+        [JsonProperty("payload")]
+        private UrlPayload payload = new UrlPayload();
+
+        public OpenUrl(string url)
+        {
+            this.payload.url = url;
+        }
 
     }
 
-    class Payload
+    class UrlPayload
     {
         [JsonProperty("url")]
-        string url = "https://www.google.com/";
+        internal string url = "https://www.google.com/";
     }
 }

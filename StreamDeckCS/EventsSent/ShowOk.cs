@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace StreamDeckCS.EventsSent
 {
-    internal class ShowOk
+    public class ShowOk
     {
+        [JsonProperty("event")]
+        private string eventName = "showOk";
+
+        [JsonProperty("context")]
+        private string context { get; set; }
+
+        public ShowOk(string context)
+        {
+            this.context = context;
+        }
     }
 }

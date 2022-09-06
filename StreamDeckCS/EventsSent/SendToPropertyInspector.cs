@@ -10,11 +10,11 @@ namespace StreamDeckCS.EventsSent
 {
     internal class SendToPropertyInspector
     {
+        [JsonProperty("event")]
+        string eventName = "sendToPropertyInspector";
+
         [JsonProperty("action")]
         string action { get; set; }
-
-        [JsonProperty("event")]
-        string ev = "sendToPropertyInspector";
 
         [JsonProperty("context")]
         string context { get; set; }
@@ -22,7 +22,7 @@ namespace StreamDeckCS.EventsSent
         [JsonProperty("payload")]
         public JObject payload { get; set; }
 
-        public SendToPropertyInspector(JObject payload, string action, string context)
+        public SendToPropertyInspector(string context, string action, JObject payload)
         {
             this.action = action;
             this.context = context;

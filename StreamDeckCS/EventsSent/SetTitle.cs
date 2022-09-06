@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using StreamDeckCS.Helpers;
 
 namespace StreamDeckCS.EventsSent
 {
-    internal class SetTitle
+    public class SetTitle
     {
         [JsonProperty("event")]
         public string eventName = "setTitle";
@@ -16,27 +12,28 @@ namespace StreamDeckCS.EventsSent
         public string context { get; set; }
 
         [JsonProperty("payload")]
-        Payload payload = new Payload();
+        SetTitlePayload payload = new SetTitlePayload();
 
-        private class Payload
+        public SetTitle(string context, string title, TARGET target = TARGET.HARDWARE_AND_SOFTWARE, int state = 0)
         {
-            [JsonProperty("title")]
-            public string title { get; set; }
-
-            [JsonProperty("target")]
-            public int target { get; set; }
-
-            [JsonProperty("state")]
-            public int state { get; set; }
-        }
-
-        public SetTitle(string title, string context)
-        {
-            this.payload.title = title;
             this.context = context;
+            this.payload.title = title;
+            this.payload.target = target;
+            this.payload.state = state;
         }
 
     }
 
+    class SetTitlePayload
+    {
+        [JsonProperty("title")]
+        internal string title { get; set; }
+
+        [JsonProperty("target")]
+        internal TARGET target { get; set; }
+
+        [JsonProperty("state")]
+        internal int state { get; set; }
+    }
 
 }

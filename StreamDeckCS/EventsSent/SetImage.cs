@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
+using StreamDeckCS.Helpers;
 
 namespace StreamDeckCS.EventsSent
 {
@@ -16,25 +15,48 @@ namespace StreamDeckCS.EventsSent
         public string context { get; set; }
 
         [JsonProperty("payload")]
-        public PayloadTitle2 p = new PayloadTitle2();
+        public SetImagePayload payload = new SetImagePayload();
 
-        public SetImage(string b64Encoded, string context)
+        public SetImage(string context, string imagePath, TARGET target, int state, bool svg)
         {
-            p.image = b64Encoded;
             this.context = context;
+            this.payload.image = encodeImage(imagePath, svg);
+            this.payload.target = target;
+            this.payload.state = state;
+        }
+
+        private string encodeImage(string imagePath, bool svg)
+        {
+            string encodedImage;
+            string imageType;
+
+            if (svg)
+            {
+                encodedImage = $"data:image/svg+xml;charset=utf8,{Encoding.UTF8.GetString(File.ReadAllBytes(imagePath))}";
+                return encodedImage;
+            }
+
+            // split string and grab file extension at end of array
+            string[] tmp = imagePath.Split('.');
+            imageType = tmp[tmp.Length - 1];
+
+            encodedImage = $"data:image/{imageType};base64,{Convert.ToBase64String(File.ReadAllBytes(imagePath))}";
+
+            return encodedImage;
+
         }
 
     }
 
-    public class PayloadTitle2
+    class SetImagePayload
     {
         [JsonProperty("image")]
-        public string image { get; set; }
+        internal string image { get; set; }
 
         [JsonProperty("target")]
-        public int target { get; set; }
+        internal TARGET target { get; set; }
 
         [JsonProperty("state")]
-        public int state { get; set; }
+        internal int state { get; set; }
     }
 }
