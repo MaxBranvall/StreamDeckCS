@@ -13,4 +13,14 @@
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StreamDeckCS\StreamDeckCS.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="WebSocketEnhanced">
+      <HintPath>..\..\WebSocketEnhanced\WebSocketEnhanced\bin\Debug\net5.0\WebSocketEnhanced.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

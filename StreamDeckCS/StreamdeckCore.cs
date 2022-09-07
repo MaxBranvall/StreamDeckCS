@@ -13,13 +13,13 @@ namespace StreamDeckCS
     public class StreamdeckCore
     {
 
-        string port { get; set; }
-        string pluginUUID { get; set; }
-        string registerEvent { get; set; }
-        string info { get; set; }
+        public string port { get; set; }
+        public string pluginUUID { get; set; }
+        public string registerEvent { get; set; }
+        public string info { get; set; }
 
         Registration registration = new Registration();
-        WebSocketEnhancedCore webSocket;
+        ICommManager webSocket;
 
         public event EventHandler<KeyUp> KeyUpEvent;
         public event EventHandler<KeyDown> KeyDownEvent;
@@ -40,14 +40,27 @@ namespace StreamDeckCS
         public StreamdeckCore(string[] args)
         {
 
-            parseArgs(args);
-
-            this.registration.UUID = pluginUUID;
-            this.registration.pluginEvent = registerEvent;
+            setProperties(args);
 
             this.webSocket = new WebSocketEnhancedCore(this.port);
             this.webSocket.MessageReceived += WebSocket_MessageReceived;
             
+        }
+
+        public StreamdeckCore(string[] args, ICommManager socket)
+        {
+            setProperties(args);
+
+            this.webSocket = socket;
+            this.webSocket.MessageReceived += WebSocket_MessageReceived;
+        }
+
+        private void setProperties(string[] args)
+        {
+            parseArgs(args);
+
+            this.registration.UUID = pluginUUID;
+            this.registration.pluginEvent = registerEvent;
         }
 
         /// <summary>
@@ -56,11 +69,11 @@ namespace StreamDeckCS
         /// <returns></returns>
         public async Task Start()
         {
-            await this.webSocket.OpenSocket();
-            await this.webSocket.SendMessage(JsonConvert.SerializeObject(this.registration));
+            await this.webSocket.OpenSocketAsync();
+            await this.webSocket.SendMessageAsync(JsonConvert.SerializeObject(this.registration));
             this.LogMessage("Plugin registered!");
             this.LogMessage("I'm listening...");
-            await this.webSocket.Listen();
+            await this.webSocket.ListenAsync();
         }
 
         private void parseArgs(string[] args)
@@ -160,7 +173,7 @@ namespace StreamDeckCS
 
         private void _sendMessage(object msg)
         {
-            this.webSocket.SendMessage(JsonConvert.SerializeObject(msg));
+            this.webSocket.SendMessageAsync(JsonConvert.SerializeObject(msg));
         }
 
         private void WebSocket_MessageReceived(object sender, MessageEventArgs e)
