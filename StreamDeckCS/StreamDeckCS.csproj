@@ -4,21 +4,19 @@
     <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+    <Authors>Maxwell J Branvall</Authors>
+    <Description>Intuitive wrapper for the StreamDeck API.  Supports all current Stream Deck actions.</Description>
+    <RepositoryUrl>https://github.com/MaxBranvall/StreamDeckCS</RepositoryUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath></OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="WebSocketEnhanced" Version="1.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="WebSocketEnhanced">
-      <HintPath>..\..\WebSocketEnhanced\WebSocketEnhanced\bin\Debug\net5.0\WebSocketEnhanced.dll</HintPath>
-      <CopyLocal>True</CopyLocal>
-    </Reference>
-  </ItemGroup>
 
 </Project>
