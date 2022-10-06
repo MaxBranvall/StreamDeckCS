@@ -7,6 +7,15 @@ A C# Stream Deck API wrapper developed for ease of use without sacrifice, giving
 <!-- GETTING STARTED -->
 ## Getting Started
 
+## Resources
+
+To ease development, I recommend grabbing manifest.json from the sample plugin, modifying it, and 
+placing it in your root project directory. Also, I have included a couple batch scripts to ease development. Refer to the comments in the scripts
+themselves for descriptions on what they do and how they work. 
+<br/>
+1. SamplePlugin/resources/sdInstallDev.bat
+2. SamplePlugin/resources/sdInstallProd.bat
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 
@@ -39,6 +48,7 @@ Note: If you encounter any confusion, refer to the SamplePlugin in this repo.
    ```
 8. Now, we can add functionality whenever a KeyDown event is raised, i.e when a button is pressed.
 9. All events and features supported by the Stream Deck API are available in this wrapper.
+10. Refer to the SamplePlugin as well as my full fledged plugin [WinMixerDeck](https://github.com/MaxBranvall/WinMixerDeck).
 
 
 <!-- CONTRIBUTING -->
