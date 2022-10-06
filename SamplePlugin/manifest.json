@@ -1,0 +1,36 @@
+﻿{
+  "Actions": [
+    {
+      "Icon": "assets/fibonacci",
+      "Name": "Fibonacci",
+      "States": [
+        {
+          "Image": "assets/fibonacci",
+          "TitleAlignment": "middle",
+          "FontSize": "18"
+        }
+      ],
+      "SupportedInMultiActions": false,
+      "Tooltip": "Generate next number in Fibonacci sequence",
+      "UUID": "com.mbranvall.sdcs-sample.volumeinterval"
+    }
+  ],
+  "SDKVersion": 2,
+  "Author": "Max Branvall",
+  "CodePath": "sdcs-sample.exe",
+  "Description": "Generates next number in Fibonacci sequence on each button press.",
+  "Category": "SDCS-Sample",
+  "Name": "SDCS-Sample",
+  "Icon": "assets/fibonacci",
+  "URL": "https://github.com/MaxBranvall/WinMixerDeck",
+  "Version": "1.4",
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "4.1"
+  }
+}

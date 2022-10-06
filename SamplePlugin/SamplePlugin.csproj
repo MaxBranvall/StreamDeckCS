@@ -1,12 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <BaseOutputPath>com.mbranvall.SDCS-sample.sdPlugin</BaseOutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AssemblyName>sdcs-sample</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\StreamDeckCS\StreamDeckCS.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="assets\fibonacci%402x.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\fibonacci.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="manifest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="com.mbranvall.SDCS-sample.sdPlugin\Release\net5.0\" />
   </ItemGroup>
 
 </Project>
