@@ -1,6 +1,8 @@
 # SamplePlugin
 
-This is a sample plugin developed using StreamDeckCS
+This is a sample plugin developed using StreamDeckCS. It creates an action under the category SDCS_Sample. This action allows
+users to click a button which increments a counter and generates the next number from the Fibonacci sequence. Users can also
+hold the button for two seconds to reset this counter.
 
 [StreamDeck API for reference](https://developer.elgato.com/documentation/stream-deck/sdk/overview/)
 
@@ -11,8 +13,6 @@ themselves for descriptions on what they do and how they work.
 <br/>
 1. resources/sdInstallDev.bat
 2. resources/sdInstallProd.bat
-
-
 
 ### Notes
 When I am actively developing the plugin, I tend to run sdInstallDev.bat to test changes. I only use sdInstallProd.bat when I wish to create a .sdPlugin file for distribution. To ensure the scripts do not run into any errors, ensure your user variables are set correctly. If you are using sdInstallProd.bat, ensure you have incremented your plugins version number in your manifest.json from your last distribution, otherwise Stream Deck will not install it.
