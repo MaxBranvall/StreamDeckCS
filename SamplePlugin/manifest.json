@@ -19,7 +19,7 @@
   "Author": "Max Branvall",
   "CodePath": "sdcs-sample.exe",
   "Description": "Generates next number in Fibonacci sequence on each button press.",
-  "Category": "SDCS-Sample",
+  "Category": "",
   "Name": "SDCS-Sample",
   "Icon": "assets/fibonacci",
   "URL": "https://github.com/MaxBranvall/WinMixerDeck",
