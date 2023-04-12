@@ -36,6 +36,9 @@ namespace StreamDeckCS
         public event EventHandler<ApplicationDidTerminate> ApplicationDidTerminateEvent;
         public event EventHandler<SystemDidWakeUp> SystemDidWakeUpEvent;
         public event EventHandler<PropertyInspectorDidDisappear> PropertyInspectorDidDisappearEvent;
+        public event EventHandler<TouchTap> TouchTapEvent;
+        public event EventHandler<DialPress> DialPressEvent;
+        public event EventHandler<DialRotate> DialRotateEvent;
 
         public StreamdeckCore(string[] args)
         {
@@ -231,6 +234,18 @@ namespace StreamDeckCS
                         OnSystemDidWakeUp(JsonConvert.DeserializeObject<SystemDidWakeUp>(e.message));
                         break;
 
+                    case Constants.TOUCH_TAP:
+                        OnTouchTap(JsonConvert.DeserializeObject<TouchTap>(e.message));
+                        break;
+
+                    case Constants.DIAL_PRESS:
+                        OnDialPress(JsonConvert.DeserializeObject<DialPress>(e.message));
+                        break;
+
+                    case Constants.DIAL_ROTATE:
+                        OnDialRotate(JsonConvert.DeserializeObject<DialRotate>(e.message));
+                        break;
+
                     default:
                         break;
                 }
@@ -240,6 +255,39 @@ namespace StreamDeckCS
             }
 
 
+        }
+
+        private void OnDialRotate(DialRotate e)
+        {
+            EventHandler<DialRotate> handler = DialRotateEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("dialRotate fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
+        private void OnDialPress(DialPress e)
+        {
+            EventHandler<DialPress> handler = DialPressEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("dialPress fired");
+                handler?.Invoke(this, e);
+            }
+        }
+
+        private void OnTouchTap(TouchTap e)
+        {
+            EventHandler<TouchTap> handler = TouchTapEvent;
+
+            if (handler != null)
+            {
+                this.LogMessage("touchTap fired");
+                handler?.Invoke(this, e);
+            }
         }
 
         private void OnSystemDidWakeUp(SystemDidWakeUp e)

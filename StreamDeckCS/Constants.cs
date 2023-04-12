@@ -31,5 +31,9 @@ namespace StreamDeckCS
         public const string APPLICATION_DID_TERMINATE = "applicationDidTerminate";
 
         public const string SYSTEM_DID_WAKE_UP = "systemDidWakeUp";
+
+        public const string TOUCH_TAP = "touchTap";
+        public const string DIAL_PRESS = "dialPress";
+        public const string DIAL_ROTATE = "dialRotate";
     }
 }
